@@ -7,8 +7,15 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #f4f4f4;
         }
         .navbar {
             background-color: #333;
@@ -21,13 +28,38 @@
             text-decoration: none;
             font-size: 18px;
         }
+        .dark-mode-toggle {
+            cursor: pointer;
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: white;
+            outline: none;
+            float: right;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <a href="index.html">Back to Dashboard</a>
+        <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
     </div>
     <h1>This is Option 2</h1>
     <p>You are viewing the page for Option 2.</p>
+
+    <script>
+        // Load dark mode preference from localStorage
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            // Toggle dark mode
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            // Save preference to localStorage
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        });
+    </script>
 </body>
 </html>
