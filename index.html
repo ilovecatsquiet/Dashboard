@@ -10,12 +10,63 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .header-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        .hamburger-menu {
+            display: none;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            background-color: #333;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .menu a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .menu a:hover {
+            background-color: #444;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
         .main-content {
             display: none;
             padding: 20px;
             text-align: center;
+            margin-top: 60px;
         }
+
         .login-container {
             display: block;
             text-align: center;
@@ -36,6 +87,22 @@
     </style>
 </head>
 <body>
+    <!-- Top black bar with hamburger menu -->
+    <div class="header-bar">
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span class="toggle-btn" id="menu-toggle">&#9776;</span>
+        </div>
+        <span class="toggle-btn" id="dark-mode-toggle">&#9789;</span> <!-- Moon icon for dark mode toggle -->
+    </div>
+
+    <!-- Menu for pages -->
+    <div class="menu" id="menu">
+        <a href="#">Page 1</a>
+        <a href="#">Page 2</a>
+        <a href="#">Page 3</a>
+    </div>
+
+    <!-- Login page -->
     <div class="login-container" id="login-container">
         <h1>Administrator Login</h1>
         <form id="loginForm">
@@ -46,6 +113,7 @@
         <p class="error-message" id="error-message" style="display:none;">Invalid credentials, please try again.</p>
     </div>
 
+    <!-- Main content (Dashboard) -->
     <div class="main-content" id="main-content">
         <h1>Discord Bot Dashboard</h1>
         <p>Reset a user's variable:</p>
@@ -123,6 +191,17 @@
                 console.error('Error:', error); // Log the full error
                 document.getElementById('responseMessage').innerText = 'Error: Could not reset variable.';
             }
+        });
+
+        // Toggle dark mode
+        document.getElementById("dark-mode-toggle").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+        // Toggle the hamburger menu
+        document.getElementById("menu-toggle").addEventListener("click", () => {
+            const menu = document.getElementById("menu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
         });
     </script>
 </body>
