@@ -54,10 +54,16 @@
                 });
 
                 const data = await response.json();
-                document.getElementById('responseMessage').innerText = data.message;
+                console.log('Backend response:', data); // Log the backend response for debugging
+
+                if (data.message) {
+                    document.getElementById('responseMessage').innerText = data.message;
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Unexpected response from backend.';
+                }
             } catch (error) {
+                console.error('Error:', error); // Log the full error
                 document.getElementById('responseMessage').innerText = 'Error: Could not reset variable.';
-                console.error(error);
             }
         });
     </script>
