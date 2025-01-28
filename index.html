@@ -101,5 +101,29 @@
             localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
         });
     </script>
+
+    <script>
+  // Function to fetch data from the API
+  async function fetchData(option) {
+    try {
+      const response = await fetch(`https://your-project-name.glitch.me/${option}`);
+      const data = await response.json();
+      document.getElementById("apiData").innerText = data.message;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  // Example: Fetch data for Option 1
+  document.getElementById("option1Link").addEventListener("click", () => {
+    fetchData("option1");
+  });
+
+  document.getElementById("option2Link").addEventListener("click", () => {
+    fetchData("option2");
+  });
+</script>
+
+    
 </body>
 </html>
