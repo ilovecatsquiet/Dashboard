@@ -30,18 +30,26 @@
             align-items: center;
             z-index: 1000;
         }
-        .hamburger-menu {
-            display: none;
+
+        .header-bar .hamburger-menu {
+            cursor: pointer;
+            font-size: 30px;
+        }
+
+        .header-bar .dark-mode-btn {
+            cursor: pointer;
+            font-size: 30px;
         }
 
         .menu {
             display: none;
             position: absolute;
-            top: 50px;
+            top: 60px;
             left: 0;
             background-color: #333;
             width: 100%;
             padding: 10px;
+            z-index: 999;
         }
 
         .menu a {
@@ -53,11 +61,6 @@
 
         .menu a:hover {
             background-color: #444;
-        }
-
-        .toggle-btn {
-            cursor: pointer;
-            font-size: 24px;
         }
 
         .main-content {
@@ -72,14 +75,17 @@
             text-align: center;
             margin-top: 100px;
         }
+
         form {
             margin-top: 20px;
         }
+
         input, button {
             padding: 10px;
             margin: 5px;
             font-size: 16px;
         }
+
         .error-message {
             color: red;
             margin-top: 10px;
@@ -89,10 +95,8 @@
 <body>
     <!-- Top black bar with hamburger menu -->
     <div class="header-bar">
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span class="toggle-btn" id="menu-toggle">&#9776;</span>
-        </div>
-        <span class="toggle-btn" id="dark-mode-toggle">&#9789;</span> <!-- Moon icon for dark mode toggle -->
+        <div class="hamburger-menu" id="hamburger-menu">&#9776;</div>
+        <span class="dark-mode-btn" id="dark-mode-toggle">&#9789;</span> <!-- Moon icon for dark mode toggle -->
     </div>
 
     <!-- Menu for pages -->
@@ -199,7 +203,7 @@
         });
 
         // Toggle the hamburger menu
-        document.getElementById("menu-toggle").addEventListener("click", () => {
+        document.getElementById("hamburger-menu").addEventListener("click", () => {
             const menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         });
