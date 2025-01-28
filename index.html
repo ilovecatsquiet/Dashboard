@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -28,36 +27,55 @@
 <body>
     <div class="main-content">
         <h1>Discord Bot Dashboard</h1>
-        <p>Reset a user's variable:</p>
-        <form id="resetForm">
-            <input type="text" id="userId" placeholder="User ID" required>
+        <p>Set a variable for your bot:</p>
+        <form id="setVariableForm">
             <input type="text" id="variableName" placeholder="Variable Name" required>
-            <input type="text" id="newValue" placeholder="New Value" required>
+            <input type="text" id="variableValue" placeholder="Variable Value" required>
             <button type="submit">Set Variable</button>
         </form>
         <p id="responseMessage"></p>
     </div>
 
     <script>
-        document.getElementById('resetForm').addEventListener('submit', async (event) => {
+        document.getElementById('setVariableForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const userId = document.getElementById('userId').value;
             const variableName = document.getElementById('variableName').value;
-            const newValue = document.getElementById('newValue').value;
+            const variableValue = document.getElementById('variableValue').value;
 
             try {
-                const response = await fetch('https://changeable-romantic-time.glitch.me/reset-variable', {
+                // Fetch the API key from the backend
+                const apiKeyResponse = await fetch('/get-api-key');
+                const apiKeyData = await apiKeyResponse.json();
+                const apiKey = apiKeyData.apiKey;
+
+                if (!apiKey) {
+                    throw new Error('API key not found');
+                }
+
+                // Make the POST request to the BDFD API
+                const response = await fetch('https://bdfddata.rickyjs.xyz/v1/db/set', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId, variableName, newValue })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey
+                    },
+                    body: JSON.stringify({
+                        name: variableName,
+                        value: variableValue
+                    })
                 });
 
                 const data = await response.json();
-                document.getElementById('responseMessage').innerText = data.message;
+
+                if (data.status === 200) {
+                    document.getElementById('responseMessage').innerText = `Variable successfully set: ${data.entries}`;
+                } else {
+                    document.getElementById('responseMessage').innerText = `Error: ${data.message || 'Could not set variable.'}`;
+                }
             } catch (error) {
-                document.getElementById('responseMessage').innerText = 'Error: Could not reset variable.';
-                console.error('Error:', error);
+                document.getElementById('responseMessage').innerText = 'Error: Could not set variable.';
+                console.error(error);
             }
         });
     </script>
