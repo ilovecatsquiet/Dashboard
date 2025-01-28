@@ -3,127 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Bot Dashboard</title>
     <style>
-        /* Basic Reset */
-        body, h1, p {
-            margin: 0;
-            padding: 0;
-        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Light mode background */
-            color: #333; /* Light mode text color */
-            transition: background-color 0.3s, color 0.3s;
+            background-color: #f4f4f4;
+            color: #333;
         }
 
-        /* Dark Mode */
-        body.dark-mode {
-            background-color: #121212; /* Dark mode background */
-            color: #f4f4f4; /* Dark mode text color */
-        }
-
-        /* Navigation Bar */
         .navbar {
-            background-color: #333; /* Black background */
+            background-color: #333;
             color: white;
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
             margin-left: 20px;
-            font-size: 16px;
-        }
-        .navbar a:hover {
-            text-decoration: underline;
         }
 
-        /* Dark Mode Button */
-        .dark-mode-toggle {
-            cursor: pointer;
-            font-size: 20px;
-            background: none;
-            border: none;
-            color: white;
-            outline: none;
+        .content {
+            padding: 20px;
         }
-        .dark-mode-toggle:hover {
+
+        .settings {
+            margin: 20px 0;
+        }
+
+        .settings label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .settings input,
+        .settings select {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .settings button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .settings button:hover {
             opacity: 0.8;
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 20px;
-            text-align: center;
-        }
-        .main-content h1 {
-            margin-bottom: 10px;
-        }
-        .main-content p {
-            font-size: 18px;
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <div class="navbar">
-        <div class="logo">My Dashboard</div>
-        <div class="nav-links">
-            <a href="option1.html">Option 1</a>
-            <a href="option2.html">Option 2</a>
-        </div>
-        <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
+        <span>Discord Bot Dashboard</span>
+        <a href="#">Home</a>
     </div>
+    <div class="content">
+        <h1>Manage Your Discord Bot</h1>
+        <div class="settings">
+            <h2>Update Bot Settings</h2>
+            <label for="prefix">Bot Prefix</label>
+            <input type="text" id="prefix" placeholder="Enter new bot prefix">
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1>Welcome to My Dashboard</h1>
-        <p>This dashboard is designed to provide you with insights and tools to manage your projects effectively.</p>
+            <label for="status">Bot Status</label>
+            <select id="status">
+                <option value="online">Online</option>
+                <option value="idle">Idle</option>
+                <option value="dnd">Do Not Disturb</option>
+                <option value="invisible">Invisible</option>
+            </select>
+
+            <button id="updateSettings">Update Settings</button>
+        </div>
+        <div id="output" class="output">Response will appear here.</div>
     </div>
 
     <script>
-        // Load dark mode preference from localStorage
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
+        const API_BASE_URL = "https://your-project-name.glitch.me";
+
+        // Function to update bot settings
+        async function updateBotSettings() {
+            const prefix = document.getElementById("prefix").value;
+            const status = document.getElementById("status").value;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/update-setting`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ prefix, status })
+                });
+
+                const data = await response.json();
+                document.getElementById("output").innerText = `Success: ${data.message}`;
+            } catch (error) {
+                console.error("Error updating settings:", error);
+                document.getElementById("output").innerText = "Failed to update settings.";
+            }
         }
 
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            // Toggle dark mode
-            const isDarkMode = document.body.classList.toggle('dark-mode');
-            // Save preference to localStorage
-            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-        });
+        // Add event listener to the update button
+        document.getElementById("updateSettings").addEventListener("click", updateBotSettings);
     </script>
-
-    <script>
-  // Function to fetch data from the API
-  async function fetchData(option) {
-    try {
-      const response = await fetch(https://your-project-name.glitch.me/${option});
-      const data = await response.json();
-      document.getElementById("apiData").innerText = data.message;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  // Example: Fetch data for Option 1
-  document.getElementById("option1Link").addEventListener("click", () => {
-    fetchData("option1");
-  });
-
-  document.getElementById("option2Link").addEventListener("click", () => {
-    fetchData("option2");
-  });
-</script>
-
-    
 </body>
 </html>
