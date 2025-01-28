@@ -35,6 +35,7 @@
         .header-bar .hamburger-menu {
             cursor: pointer;
             font-size: 30px;
+            display: none; /* Hide hamburger menu by default */
         }
 
         .header-bar .dark-mode-btn {
@@ -161,6 +162,9 @@
                 if (data.success) {
                     document.getElementById("main-content").style.display = "block";
                     document.getElementById("login-container").style.display = "none";
+
+                    // Show hamburger menu after login
+                    document.getElementById("hamburger-menu").style.display = "block";
                 } else {
                     document.getElementById('error-message').style.display = "block";
                 }
