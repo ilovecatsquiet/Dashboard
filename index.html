@@ -80,6 +80,8 @@
 
                 const data = await response.json();
 
+                console.log('Backend response:', data); // Log the backend response for debugging
+
                 if (data.success) {
                     // Login successful, show the dashboard
                     document.getElementById("main-content").style.display = "block";
