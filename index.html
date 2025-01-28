@@ -57,7 +57,7 @@
                 document.getElementById('responseMessage').innerText = data.message;
             } catch (error) {
                 document.getElementById('responseMessage').innerText = 'Error: Could not reset variable.';
-                console.error(error);
+                console.error('Error:', error);
             }
         });
     </script>
